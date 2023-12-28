@@ -18,7 +18,7 @@ export class ScraperController {
     try {
       const html = await this.scraperService.fetchHtml(this.targetUrl);
       const formattedData = this.scraperService.parseHtml(html);
-      res.json({ data: formattedData});
+      res.json(formattedData);
     } catch (error) {
       res.status(500).json({ message: "An unexpected error occurred" });
     }

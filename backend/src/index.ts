@@ -14,7 +14,9 @@ class Server {
   }
 
   private initializeMiddleware() {
+    const cors = require('cors');
     this.app.use(express.json()); 
+    this.app.use(cors())
   }
 
   private initializeRoutes() {
