@@ -22,6 +22,10 @@ class Server {
   private initializeRoutes() {
     const apiRoutes = new ApiRouter().router;
     this.app.use('/api', apiRoutes);
+
+    this.app.get('/', (req, res) => {
+      res.send('ts-scraper api');
+    });
 }
 
   public start() {
