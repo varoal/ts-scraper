@@ -1,4 +1,3 @@
-console.log('Routes are working!');
 import { ROUTES } from './src/app/routes/routes';
 import { Routing } from './src/app/routes/routing';
 

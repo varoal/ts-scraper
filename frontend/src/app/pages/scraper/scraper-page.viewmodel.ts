@@ -15,11 +15,6 @@ export class ScraperPageViewModel extends LitElement {
 
   protected service = new RestServiceScraper(this.endpoint);
 
-  async connectedCallback() {
-    super.connectedCallback();
-    console.log(this.isDataFetched);
-  }
-
   protected async fetchData() {
     this.loadingResults = true;
     try {
@@ -28,7 +23,6 @@ export class ScraperPageViewModel extends LitElement {
       this.filteredResults = [...data];
       this.handleDisabledActions();
       this.filterState = "all";
-      console.log(this.results);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -43,7 +37,6 @@ export class ScraperPageViewModel extends LitElement {
       this.filteredResults = [...data];
       this.handleDisabledActions();
       this.filterState = "filter1";
-      console.log(this.results);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -58,7 +51,6 @@ export class ScraperPageViewModel extends LitElement {
       this.filteredResults = [...data];
       this.handleDisabledActions();
       this.filterState = "filter2";
-      console.log(this.results);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -119,6 +111,5 @@ export class ScraperPageViewModel extends LitElement {
   protected setFilterMode(useServer: boolean) {
     this.clearResults();
     this.filterWithServer = useServer;
-    console.log(this.filterWithServer);
   }
 }
