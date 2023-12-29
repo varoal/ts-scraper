@@ -1,0 +1,1 @@
+type FilterState  = 'none' | 'all' | 'filter1' | 'filter2';

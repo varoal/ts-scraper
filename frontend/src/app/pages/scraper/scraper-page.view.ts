@@ -1,8 +1,8 @@
 import { css, html } from "lit";
 import { ScraperPageViewModel } from "./scraper-page.viewmodel";
 import { customElement } from "lit/decorators.js";
-import { when } from 'lit/directives/when.js';
-import '../../components/list-item/list-item.view'
+import { when } from "lit/directives/when.js";
+import "../../components/list-item/list-item.view";
 
 @customElement("scraper-page")
 export class ScraperPageView extends ScraperPageViewModel {
@@ -13,8 +13,8 @@ export class ScraperPageView extends ScraperPageViewModel {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        height: 100%; 
-        background-color: #121212; 
+        height: 100%;
+        background-color: #121212;
         color: #ffffff;
       }
 
@@ -40,6 +40,24 @@ export class ScraperPageView extends ScraperPageViewModel {
 
       button:hover {
         background-color: #1565c0;
+      }
+
+      button[disabled],
+      .filterby-button.inactive {
+        background-color: #808080;
+        cursor: not-allowed;
+      }
+
+      button[disabled]:hover {
+        background-color: #646464;
+      }
+
+      .clear-button {
+        background: #bb0000;
+      }
+
+      .clear-button:hover {
+        background: #960909;
       }
 
       ul {
@@ -68,30 +86,68 @@ export class ScraperPageView extends ScraperPageViewModel {
   public render() {
     return html`
       <div class="container">
+        <h1>Hacker News Scraper</h1>
+        <div class="filterby-buttons">${this.renderFilterByServer()}</div>
         ${this.renderButtons()}
-        ${this.renderList()}
-        ${when(this.loading, () => html `
-        Loading results
-        `)}
+        <h2>${this.getListTitle()}</h2>
+        ${when(
+          !this.loadingResults,
+          () => this.renderList(),
+          () => html`<p>Loading results...</p>`
+        )}
       </div>
+    `;
+  }
+
+  private renderFilterByServer() {
+    const clientButtonText = this.filterWithServer
+      ? "Use client filter"
+      : "Using client filter";
+    const serverButtonText = this.filterWithServer
+      ? "Using server filter"
+      : "Use server filter";
+
+    return html`
+      <button @click="${() => this.setFilterMode(false)}">
+        ${clientButtonText}
+      </button>
+      <button @click="${() => this.setFilterMode(true)}">
+        ${serverButtonText}
+      </button>
     `;
   }
 
   private renderButtons() {
     return html`
       <button @click="${this.fetchData}">Fetch Data</button>
-      <button @click="${this.showAllResults}">Show All Results</button>
-      <button @click="${this.filterByLongTitleOrderByComments}">Filter 1</button>
-      <button @click="${this.filterByShortTitleOrderByPoints}">Filter 2</button>
+      <button @click="${this.showAllResults}" ?disabled=${!this.isDataFetched}>
+        Show All Results
+      </button>
+      <button
+        @click="${this.filterByLongTitleOrderByComments}"
+        ?disabled=${!this.isDataFetched}
+      >
+        Filter 1
+      </button>
+      <button
+        @click="${this.filterByShortTitleOrderByPoints}"
+        ?disabled=${!this.isDataFetched}
+      >
+        Filter 2
+      </button>
+      <button class="clear-button" @click="${this.clearResults}">
+        Clear Results
+      </button>
     `;
   }
 
   private renderList() {
     return html`
       <ul>
-        ${this.filteredResults.map(item => html`<list-item-view .item=${item}></list-item-view>`)}
+        ${this.filteredResults.map(
+          (item) => html`<list-item-view .item=${item}></list-item-view>`
+        )}
       </ul>
     `;
   }
 }
-

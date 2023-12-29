@@ -17,6 +17,7 @@
       "preserveSymlinks": true,
       "resolveJsonModule": true,
       "allowJs": true,
+      "types": ["mocha", "chai"],
       "paths": {
         "src/*": ["src/*"],
         "@app/*": ["src/app/*"],

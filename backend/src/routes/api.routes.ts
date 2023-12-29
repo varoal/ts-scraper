@@ -11,8 +11,10 @@ export class ApiRouter {
 
     private initializeRoutes() {
         const scraperController = new ScraperController();
-
+        
+        this.router.get('/get-html', scraperController.fetchHtml.bind(scraperController))
         this.router.get('/scrape', scraperController.scrapeData.bind(scraperController));
-        this.router.get('/get', scraperController.fetchHtml.bind(scraperController))
+        this.router.get('/filter-long-title', scraperController.filterByLongTitleOrderByComments.bind(scraperController));
+        this.router.get('/filter-short-title', scraperController.filterByShortTitleOrderByPoints.bind(scraperController));
     }
 }
